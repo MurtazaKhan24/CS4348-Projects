@@ -1,9 +1,6 @@
-# Jan. 23 4:30pm
-I'm going to write a simple one operator calculator. 
-I will use python because there is less bolierplate.
+# CS 4348 Project devlogs
 
-# Jan. 23 4:45pm
-Get UI working, leave stubs for operations
+# Project 1 devlog
 
-# Jan. 23 5:00pm
-Stubs were easy
+## Feb. 13 6:00pm
+I'm starting the project by adding the necessary files made in python. I started to work on the driver program to add a user input feature and error handling for cases if there isn't any passkey or non alpha characters.
