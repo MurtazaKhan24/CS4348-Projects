@@ -1,21 +1,23 @@
 import sys
+import time
 from datetime import datetime
 
-def logger(log_file):
-    with open(log_file, 'a') as f:
+def main(log_file):
+    with open(log_file, "a") as log:
         while True:
-            message = input().strip()
-            if message == "QUIT":
+            line = sys.stdin.readline().strip()
+            if line == "QUIT":
                 break
-            action, *msg_parts = message.split(maxsplit=1)
-            msg = msg_parts[0] if msg_parts else ""
+            parts = line.split(maxsplit=1)
+            if len(parts) < 2:
+                continue
+            action, message = parts
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
-            log_entry = f"{timestamp} [{action}] {msg}\n"
-            f.write(log_entry)
-            f.flush()
+            log.write(f"{timestamp} [{action}] {message}\n")
+            log.flush()
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: logger.py <log_file>")
+        print("Usage: python logger.py <log_file>")
         sys.exit(1)
-    logger(sys.argv[1])
+    main(sys.argv[1])
