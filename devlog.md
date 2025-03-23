@@ -3,47 +3,42 @@
 ## Project 1 devlog
 
 ### Feb. 13 6:00pm
-Started the project by setting up the necessary Python files. Focused on designing the driver program, which will:
+Started the project by setting up the necessary Python files. Focused on designing the driver program, which will include
+    Handling user input and error handling such as attempting to encrypt/decrypt without a passkey
 
-    Handle user input.
-    Provide error handling for cases where:
-        A passkey is missing before encryption or decryption.
-        The user enters non-alphabetic characters.
-
-Planned to implement Vigenère cipher encryption and decryption next.
+Got little done so far, plan to implement the commands and user interaction on the driver file, and Vigenère cipher encryption and decryption next.
 
 ### Feb. 15 3:30 pm
-Worked on implementing basic command parsing in the driver program.
+Worked on implementing basic commands through the driver program such as 
+        "Passkey"
+        "Encrypt"
+        "Decrypt"
 
-    The driver can now recognize commands like:
-        "PASSKEY <password>"
-        "ENCRYPT <text>"
-        "DECRYPT <text>"
-    However, commands currently return placeholder responses since no encryption algorithm is developed yet.
-    Next step: Implement Vigenère encryption and decryption functions.
+Also, I hard coded it so if the user enters the wrong command or enters encrypt before password, the program will output the appropriate error
+Right now though, the commands aren't being sent over to the logger or encrypt files so its very basic. I will work implementing the vigenere cypher for encryption next.
 
 ### Feb 18th 5:45pm
 Started working on the Vigenère encryption and decryption algorithm.
+    Hard coded some test encryptions using a key which helped me see if the algorithm was working as intended. 
+    Decryption was running into some problems since it outputted an empty output. 
+    It was a little hard to understand how to move the characters based on the password as well as looping the passkey back to the start if the encryption is still on going, but some research on the algorithm helped me.
 
-    Implemented the core logic for encrypting and decrypting messages.
-    Successfully tested with basic inputs.
-    Haven't added check for non-alphabetic characters disrupt encryption.
-
-Plan: Add error handling to prevent invalid inputs.
+I will try to work on adding the error inputs when the user enters a non alphanumeric character or password.
 
 ### Feb 20th 7:00pm
-Added input validation to encryption and decryption.
+Hard coded some input validation to encryption and decryption.
 
     Now, if a user enters an invalid input (e.g., "ENCRYPT Hello World!"), the program displays an error message instead of attempting encryption.
 
-Implemented the following error messages:
-"ERROR Password not set" → If encryption/decryption is attempted before setting a passkey.
-"ERROR Input must contain only letters" → If non-alphabetic characters are detected.
+So now the error messages displayed will be if:
+The encryption/decryption command is run before the password is set
+If the user enters a non-alpha num character for either password or encrypt/decrypt.
 
-Next step: Integrate the subprocess module to allow interaction between the driver and encryption program.
+Next, I will start to work on adding the subprocess module to allow the driver and encrypt files to communicate with one another.
 
 ## Feb. 22nd 2:00 pm
 Began working on subprocess communication.
+    Was a bit tricky to understand, but through research, I was able to implement a very basic version of the module to communicate with the encrypt.py file using popen commands.
 
     The driver program now sends commands to the encryption program using subprocess.
     Commands and responses are exchanged through standard input/output (stdin/stdout).
@@ -74,9 +69,9 @@ Next step: Ensure logs are correctly written when commands are executed.
 Began writing the logger program.
 
     The logger will:
-    ✅ Start when the program is launched.
-    ✅ Record user actions (PASSKEY, ENCRYPT, DECRYPT).
-    ✅ Log the exit status when "QUIT" is entered.
+    Start when the program is launched.
+    Record user actions (PASSKEY, ENCRYPT, DECRYPT).
+    Log the exit status when "QUIT" is entered.
 
 However, not all commands are being recorded. Investigating why subprocess messages are not reaching the logger consistently.
 
