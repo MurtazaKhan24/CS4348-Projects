@@ -5,8 +5,8 @@ def is_valid_input(text):
     return text.isalpha()
 
 def main(log_file):
-    logger_proc = subprocess.Popen(["python", "logger.py", log_file], stdin=subprocess.PIPE, text=True)
-    encryptor_proc = subprocess.Popen(["python", "encrypt.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    logger_proc = subprocess.Popen(["python3", "logger.py", log_file], stdin=subprocess.PIPE, universal_newlines=True)
+    encryptor_proc = subprocess.Popen(["python3", "encrypt.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
 
     history = []
 
@@ -78,7 +78,7 @@ def main(log_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python driver.py <log_file>")
+        print("Usage: python3 driver.py <log_file>")
         sys.exit(1)
     main(sys.argv[1])
 
