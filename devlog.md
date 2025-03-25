@@ -40,51 +40,43 @@ Next, I will start to work on adding the subprocess module to allow the driver a
 Began working on subprocess communication.
     Was a bit tricky to understand, but through research, I was able to implement a very basic version of the module to communicate with the encrypt.py file using popen commands.
 
-    The driver program now sends commands to the encryption program using subprocess.
-    Commands and responses are exchanged through standard input/output (stdin/stdout).
-    Issue of responses not returning correctly is happening
-Plan: debug code and subprocess to make sure it's being used correctly
+    The driver program now sends commands to the encryption program using subprocess communication.
+    Commands and responses are done through the use of (stdin/stdout).
+    While I'm testing it however, I run across an issue with losing the data
+    and the program freezing sometimes.
+I'll try to find out the issue by debugging the code using print statements for next time.
 
 ### Feb 23rd 6:30 pm
-Refined the subprocess execution flow:
-Ensured commands are properly sent and received between programs.
-Fixed an issue where the subprocess would hang indefinitely due to improper input buffering.
+Was able to fix the issue with subprocess communication
+I found out that the subprocess buffer wasn't flushing properly
+Added "sys.stdout.flush() to make it work properly"
 
-Ran additional test cases to verify:
+Also coded some other checks and tested it to see if it worked properly such as:
+    "PASSKEY" being set before encryption/decryption.
+    Making sure the encrypt and decrypt work using the passkey
+Final testing allowed me to confirm the vigenere cypher was working
 
-    "PASSKEY" must be set before encryption/decryption.
-    Encryption and decryption now correctly modify text based on the passkey.
+### Feb 23rd 8:30pm
+Added the history and quit functionality to the program 
 
-Plan: Start working on the logging feature.
+I'll start working on the logging feature for next time.
 
 ### Feb. 25 5:11pm
 Started implementing logging functionality.
 
-    Plan: The logger will record all user actions and program status updates.
-    Integrated subprocess communication between the driver program and the logging program.
+Searched out how to use the datetime module in python
+Currently, the logger is only displaying the SESSION STARTED cmmand and QUIT but not anything else.
 
-Next step: Ensure logs are correctly written when commands are executed.
+Will find out whats the issue
 
 ### Feb. 25 7:00pm 
-Began writing the logger program.
+Began fixing the logging program
 
-    The logger will:
-    Start when the program is launched.
-    Record user actions (PASSKEY, ENCRYPT, DECRYPT).
-    Log the exit status when "QUIT" is entered.
+    I added print statements and saw that the logger wasn't properly recieving messages from the driver
+    I changed Popen() to stdout = subprocess.PIPE and stderr=subprocess.PIPE to capture the output.
+    Started working as intended
 
-However, not all commands are being recorded. Investigating why subprocess messages are not reaching the logger consistently.
-
-### Feb. 25 8:00pm
-Encountered an issue with the command execution flow:
-
-    "response = send_command(f'PASS {password}')" is not working as intended.
-    Debugging revealed that the subprocess pipe closes prematurely, causing loss of data.
-
-Plan:
-
-    Refactor the way commands are sent and responses are handled.
-    Ensure all processes run smoothly without blocking execution.
+Next I'll try and fix the current structure of the logger to make it the same as in the project description.
 
 ### March 2nd 3:00pm
 Added struture to the logger program to display log messages similar to the example in the project 1 requirements
@@ -93,8 +85,15 @@ Added struture to the logger program to display log messages similar to the exam
 Finalizing logging system, make sure every command is properly displayed on the logger program 
 
 ### March 7th 4:00pm
-Got logging to somewhat work as intended, it will start the logging message once the program is called and write a exit status once the user enters "quit". However, I cannot seem to allow other actions (i.e. pass, encrypt, decrypt, etc.) to work
+Spent time testing out various inputs for the program such as:
+    PASSKEY 123 to see if the error check will occur
+    Encrypt Hello before setting password.
+All tests seem to work and function as intended
+Will try to test the code in the linux environment (cs1 utd) to make sure everything works there too
 
-### March 8th 2:00pm 
-Added flushing to ensure the logs are written immediately after commands are executed, finished development
+### March 24th 2:00pm 
+Ran into an error with the linux server not running the program:
+    Due to outdated python version, the program couldn't recognize the prameter "text = True" for the processes.
+    Used "universal_newline=True" instead and it started working
+Finalizing the project by adding README file and tweaking devlog before submitting.
 
