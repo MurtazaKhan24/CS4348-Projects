@@ -97,3 +97,12 @@ Ran into an error with the linux server not running the program:
     Used "universal_newline=True" instead and it started working
 Finalizing the project by adding README file and tweaking devlog before submitting.
 
+
+## Project 2
+
+### April 7th 9:10pm
+Setting up initial project with simple threading to see if the basics are working.
+
+Managed to set up a simple thread with 2 tellers and 3 customers from the example files provided. The customers introduce themselves and tellers recognize customers introduction, simple.
+
+Will try to add simple transactions next time.
