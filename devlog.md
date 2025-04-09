@@ -106,3 +106,12 @@ Setting up initial project with simple threading to see if the basics are workin
 Managed to set up a simple thread with 2 tellers and 3 customers from the example files provided. The customers introduce themselves and tellers recognize customers introduction, simple.
 
 Will try to add simple transactions next time.
+
+### April 8th 9:00pm 
+Starting to work on providing the customer transactions such as withdrawal or deposit 
+
+Still using 2 tellers and three customers to make sure the threading logic will work as intended
+
+Will try to add manager permissions for withdrawals, safe access to vault, and random waiting times
+
+### April 9th 

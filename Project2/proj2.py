@@ -10,10 +10,12 @@ NUM_CUSTOMERS = 3
 
 customerQueue = []
 tellerAssignments = {}
+transactions = ["Deposit", "Withdrawal"]
+customerTransaction = {}
 
 
 ready = [threading.Semaphore(0) for _ in range(NUM_CUSTOMERS)]
-introduced = [threading.Semaphore(0) for _ in range(NUM_CUSTOMERS)]
+transactionSent = [threading.Semaphore(0) for _ in range(NUM_CUSTOMERS)]
 
 def tellerCode(tellerId):
     print("Teller", tellerId, "[]: ready to serve")
@@ -27,24 +29,28 @@ def tellerCode(tellerId):
         tellerAssignments[customerId] = tellerId
         queueLock.release()
 
-        print("Teller", tellerId, "[Customer", customerId, "]: serving a customer")
+        print("Teller", tellerId, "[Customer", customerId, "]: asks for transaction")
         ready[customerId].release()
-        introduced[customerId].acquire()
-        print("Teller", tellerId, "[Customer", customerId, "]: noted customer introduction")
+        transactionSent[customerId].acquire()
+        trans = customerTransaction[customerId]
+        print("Teller", tellerId, "[Customer", customerId, "]: received", trans.lower(), "transaction")
 
 def customerCode(customerId):
     time.sleep(random.uniform(0, 0.05))
+    transType = random.choice(transactions)
+    customerTransaction[customerId] = transType
+
     queueLock.acquire()
     customerQueue.append(customerId)
     queueLock.release()
+    print("Customer", customerId, "[]: wants to perform a", transType.lower(), "transaction")
     print("Customer", customerId, "[]: getting in line")
 
     customerReady.release()
     ready[customerId].acquire()
     tellerId = tellerAssignments[customerId]
-    print("Customer", customerId, "[Teller", tellerId, "]: introduces itself")
-    introduced[customerId].release()
-
+    print("Customer", customerId, "[Teller", tellerId, "]: gives", transType.lower(), "transaction")
+    transactionSent[customerId].release()
 
 tellers = []
 for i in range(NUM_TELLERS):
@@ -56,10 +62,9 @@ for i in range(NUM_CUSTOMERS):
     customers.append(threading.Thread(target=customerCode, args=(i,)))
     customers[i].start()
 
-
+# Wait for all threads
 for c in customers:
     c.join()
 for t in tellers:
     t.join()
-
 
