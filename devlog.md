@@ -112,6 +112,13 @@ Starting to work on providing the customer transactions such as withdrawal or de
 
 Still using 2 tellers and three customers to make sure the threading logic will work as intended
 
-Will try to add manager permissions for withdrawals, safe access to vault, and random waiting times
+Will try to add manager permissions for withdrawals, safe access to safe, and random waiting times
 
-### April 9th 
+### April 9th 12:00pm
+Added manager access for withdraw requests from customers as well as randomized wait times (5-30 ms when talking to manager, 10-50ms when accessing safe, and 0-100ms for customer wait times), and safe access to vaults by limiting tellers to 2 at the safe at one time
+
+Ran into some problems with increasing the numbers of customers, so will see the issue next time
+
+Once the issue is found, I'll gradually increase the number of customers to 50
+Also need to add the logic for limiting customers entry via the front door to 2 at a time.
+
