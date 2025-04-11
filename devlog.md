@@ -122,3 +122,14 @@ Ran into some problems with increasing the numbers of customers, so will see the
 Once the issue is found, I'll gradually increase the number of customers to 50
 Also need to add the logic for limiting customers entry via the front door to 2 at a time.
 
+### April 10th 9:00pm
+Expanded the program to handle 10 customers, ran into some issues regarding the tellers reaching all of them but was able to figure it out
+
+Implementing logic where only 2 customers enter the bank at a time
+Adding a door semaphore of 2. Is taken when a customers enters, is freed when a customer leaves.
+Ran some tests to see if it works and works as intended
+
+Going to add check to see if all customers served, first add a customers served thread lock and increment once a teller is done with a customer.
+
+Boolean variable for checking if the total number of customers served is >= to total customers
+Ran some tests and works as intended
