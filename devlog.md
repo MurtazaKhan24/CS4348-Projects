@@ -133,3 +133,10 @@ Going to add check to see if all customers served, first add a customers served 
 
 Boolean variable for checking if the total number of customers served is >= to total customers
 Ran some tests and works as intended
+
+### April 11th 4:00pm
+Increased the customer size to 50 but program was hanging at the end preventing quitting 
+
+Trying to add a event to tell tellers to exit after all customers and exit the program
+
+Still didn't work I'll try debug and find out the issue
