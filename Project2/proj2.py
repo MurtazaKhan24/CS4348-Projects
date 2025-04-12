@@ -23,6 +23,9 @@ customersServed = 0
 customersServedLock = threading.Lock()
 exitSignal = threading.Event()
 
+teller_exit_order = 0
+exit_lock = threading.Condition()
+
 def tellerCode(tellerId):
     print(f"Teller {tellerId} []: ready to serve")
     while not exitSignal.is_set():
@@ -72,7 +75,13 @@ def tellerCode(tellerId):
                 customerReady.release()
         customersServedLock.release()
 
-    print(f"Teller {tellerId} []: leaving for the day")
+    global teller_exit_order
+    with exit_lock:
+        while teller_exit_order != tellerId:
+            exit_lock.wait()
+        print(f"Teller {tellerId} []: leaving for the day")
+        teller_exit_order += 1
+        exit_lock.notify_all()
 
 def customerCode(customerId):
     time.sleep(random.uniform(0, 0.1))

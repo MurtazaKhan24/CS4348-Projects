@@ -149,3 +149,12 @@ used a shared exit signal event which is set to true once all 50 customers are s
 check to see if exit signal is set then break from the program and print "bank is closed for the day"
 
 tellers are exiting from random which is different from example run, will try to fix that next time
+
+### April 11th 6:21pm
+testing out different for tellers to leave in order
+
+found you can use a threading condition to have a turn taking exit in increasing order
+
+once one teller is done, they notify the next teller to leave
+
+going to compare my run with the sample run to see if its similar, add a readme and finailize the project
