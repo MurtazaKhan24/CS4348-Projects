@@ -140,3 +140,12 @@ Increased the customer size to 50 but program was hanging at the end preventing 
 Trying to add a event to tell tellers to exit after all customers and exit the program
 
 Still didn't work I'll try debug and find out the issue
+
+### April 11th 6:00pm
+debugged, found out the issue is that tellers were waiting for customers even after the 50th one was served
+
+used a shared exit signal event which is set to true once all 50 customers are served
+
+check to see if exit signal is set then break from the program and print "bank is closed for the day"
+
+tellers are exiting from random which is different from example run, will try to fix that next time

@@ -13,92 +13,91 @@ door = threading.Semaphore(2)
 
 customerQueue = []
 tellerAssignments = {}
-transactions = ["Deposit", "Withdrawal"]
 customerTransaction = {}
+transactions = ["Deposit", "Withdrawal"]
 ready = [threading.Semaphore(0) for _ in range(NUM_CUSTOMERS)]
 transactionSent = [threading.Semaphore(0) for _ in range(NUM_CUSTOMERS)]
 left = [threading.Semaphore(0) for _ in range(NUM_CUSTOMERS)]
 
 customersServed = 0
 customersServedLock = threading.Lock()
-all_customers_done = threading.Event()
+exitSignal = threading.Event()
 
 def tellerCode(tellerId):
-    print("Teller", tellerId, "[]: ready to serve")
-    while True:
-        if all_customers_done.is_set():
-            break
-
+    print(f"Teller {tellerId} []: ready to serve")
+    while not exitSignal.is_set():
         customerReady.acquire()
 
-        if all_customers_done.is_set():
+        if exitSignal.is_set():
             break
 
         queueLock.acquire()
-        if len(customerQueue) == 0:
+        if not customerQueue:
             queueLock.release()
             continue
         customerId = customerQueue.pop(0)
         tellerAssignments[customerId] = tellerId
         queueLock.release()
 
-        print("Teller", tellerId, f"[Customer {customerId}]: asks for transaction")
+        print(f"Teller {tellerId} [Customer {customerId}]: asks for transaction")
         ready[customerId].release()
         transactionSent[customerId].acquire()
         trans = customerTransaction[customerId]
 
         if trans == "Withdrawal":
-            print("Teller", tellerId, f"[Customer {customerId}]: going to the manager")
+            print(f"Teller {tellerId} [Customer {customerId}]: going to the manager")
             manager.acquire()
-            print("Teller", tellerId, f"[Customer {customerId}]: getting manager's permission")
+            print(f"Teller {tellerId} [Customer {customerId}]: getting manager's permission")
             time.sleep(random.uniform(0.005, 0.03))
-            print("Teller", tellerId, f"[Customer {customerId}]: got manager's permission")
+            print(f"Teller {tellerId} [Customer {customerId}]: got manager's permission")
             manager.release()
 
-        print("Teller", tellerId, f"[Customer {customerId}]: going to safe")
+        print(f"Teller {tellerId} [Customer {customerId}]: going to safe")
         safe.acquire()
-        print("Teller", tellerId, f"[Customer {customerId}]: enter safe")
+        print(f"Teller {tellerId} [Customer {customerId}]: enter safe")
         time.sleep(random.uniform(0.01, 0.05))
-        print("Teller", tellerId, f"[Customer {customerId}]: leaving safe")
+        print(f"Teller {tellerId} [Customer {customerId}]: leaving safe")
         safe.release()
 
-        print("Teller", tellerId, f"[Customer {customerId}]: finishes {trans.lower()} transaction")
-        print("Teller", tellerId, f"[Customer {customerId}]: wait for customer to leave")
+        print(f"Teller {tellerId} [Customer {customerId}]: finishes {trans.lower()} transaction")
+        print(f"Teller {tellerId} [Customer {customerId}]: wait for customer to leave")
         left[customerId].acquire()
 
         global customersServed
         customersServedLock.acquire()
         customersServed += 1
-        if customersServed >= NUM_CUSTOMERS:
-            all_customers_done.set()
+        if customersServed == NUM_CUSTOMERS:
+            exitSignal.set()
+            for _ in range(NUM_TELLERS):
+                customerReady.release()
         customersServedLock.release()
 
     print(f"Teller {tellerId} []: leaving for the day")
 
 def customerCode(customerId):
     time.sleep(random.uniform(0, 0.1))
-    transType = random.choice(transactions)
-    customerTransaction[customerId] = transType
+    trans = random.choice(transactions)
+    customerTransaction[customerId] = trans
 
-    print("Customer", customerId, "[]: wants to perform a", transType.lower(), "transaction")
-    print("Customer", customerId, "[]: waiting to enter bank")
+    print(f"Customer {customerId} []: wants to perform a {trans.lower()} transaction")
+    print(f"Customer {customerId} []: waiting to enter bank")
     door.acquire()
-    print("Customer", customerId, "[]: entering bank")
+    print(f"Customer {customerId} []: entering bank")
 
     queueLock.acquire()
     customerQueue.append(customerId)
     queueLock.release()
-    print("Customer", customerId, "[]: getting in line")
+    print(f"Customer {customerId} []: getting in line")
 
     customerReady.release()
     ready[customerId].acquire()
     tellerId = tellerAssignments[customerId]
-    print("Customer", customerId, f"[Teller {tellerId}]: gives {transType.lower()} transaction")
+    print(f"Customer {customerId} [Teller {tellerId}]: gives {trans.lower()} transaction")
     transactionSent[customerId].release()
 
-    print("Customer", customerId, f"[Teller {tellerId}]: leaves teller")
+    print(f"Customer {customerId} [Teller {tellerId}]: leaves teller")
     left[customerId].release()
-    print("Customer", customerId, "[]: leaves the bank")
+    print(f"Customer {customerId} []: leaves the bank")
     door.release()
 
 tellers = [threading.Thread(target=tellerCode, args=(i,)) for i in range(NUM_TELLERS)]
@@ -111,10 +110,6 @@ for c in customers:
 
 for c in customers:
     c.join()
-
-for _ in range(NUM_TELLERS * 2):
-    customerReady.release()
-
 for t in tellers:
     t.join()
 
