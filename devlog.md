@@ -103,19 +103,29 @@ Finalizing the project by adding README file and tweaking devlog before submitti
 ### April 7th 9:10pm
 Setting up initial project with simple threading to see if the basics are working.
 
-Managed to set up a simple thread with 2 tellers and 3 customers from the example files provided. The customers introduce themselves and tellers recognize customers introduction, simple.
+Managed to set up a simple thread with 2 tellers and 3 customers from the example files provided. The customers introduce themselves and tellers recognize customers introduction.
+
+created customers and tellers using threading.thread call, and variables such as teller assignments to track which teller is serving which customer
+
+included some semaphores or syncing
 
 Will try to add simple transactions next time.
 
 ### April 8th 9:00pm 
 Starting to work on providing the customer transactions such as withdrawal or deposit 
 
+using the random module to decide whether the customer will do a deposit or withdrawal
+implemented transactionSent semaphore to pass trans info from customer to teller
+
 Still using 2 tellers and three customers to make sure the threading logic will work as intended
 
 Will try to add manager permissions for withdrawals, safe access to safe, and random waiting times
 
 ### April 9th 12:00pm
-Added manager access for withdraw requests from customers as well as randomized wait times (5-30 ms when talking to manager, 10-50ms when accessing safe, and 0-100ms for customer wait times), and safe access to vaults by limiting tellers to 2 at the safe at one time
+Added manager access for withdraw requests from customers as well as randomized wait times (5-30 ms when talking to manager, 10-50ms when accessing safe, and 0-100ms for customer wait times using time.sleep()), and safe access to vaults by limiting tellers to 2 at the safe at one time
+
+added manager logic by creating a manager semaphore where only 1 teller can talk to a manager at a time
+added a safe semaphore where only two tellers can access the safe at a time
 
 Ran into some problems with increasing the numbers of customers, so will see the issue next time
 
@@ -157,4 +167,7 @@ found you can use a threading condition to have a turn taking exit in increasing
 
 once one teller is done, they notify the next teller to leave
 
-going to compare my run with the sample run to see if its similar, add a readme and finailize the project
+going to compare my run with the sample run to see if its similar, add a readme and finalize the project
+
+### April 13th 8:30pm
+Finalized the project and added readme for submission
