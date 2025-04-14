@@ -5,6 +5,7 @@ import time
 NUM_TELLERS = 3
 NUM_CUSTOMERS = 50
 
+# Shared semaphores and synchronization primitives
 queueLock = threading.Semaphore(1)
 customerReady = threading.Semaphore(0)
 manager = threading.Semaphore(1)
