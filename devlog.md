@@ -171,3 +171,14 @@ going to compare my run with the sample run to see if its similar, add a readme 
 
 ### April 13th 8:30pm
 Finalized the project and added readme for submission
+
+## Project 3
+### May 3rd 9:00pm
+Started working on the main commands for project 3 in order.
+
+Started with the create command
+
+Added some basic checks to see if the file exists, if not, then it'll create a new file with 512 byte block size, with the header as the magic number, root ID, and block id at 1 to point to the next node
+
+Will focus on working on the insert command next
+
