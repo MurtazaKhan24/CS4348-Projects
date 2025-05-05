@@ -180,5 +180,11 @@ Started with the create command
 
 Added some basic checks to see if the file exists, if not, then it'll create a new file with 512 byte block size, with the header as the magic number, root ID, and block id at 1 to point to the next node
 
-Will focus on working on the insert command next
+Will focus on working on the insert and search commands next
 
+### May 3rd 10:00pm
+Start working on the insert command
+
+First need to add check to validate if the index file exists and matches the magic number, read the root or create a new tree if it is empty. 
+
+Need logic for inserting the value given a key, making sure the key doesn't exceed the MAX_KEYS value, can only keep 3 nodes in memory
