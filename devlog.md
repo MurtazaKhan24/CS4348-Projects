@@ -185,6 +185,21 @@ Will focus on working on the insert and search commands next
 ### May 3rd 10:00pm
 Start working on the insert command
 
-First need to add check to validate if the index file exists and matches the magic number, read the root or create a new tree if it is empty. 
+Firstly, need to access the given index file by opening it in binary r+w mode, then to read the header to find the root
+Also need to remember it can't exceed max_keys and max_children global values.
 
-Need logic for inserting the value given a key, making sure the key doesn't exceed the MAX_KEYS value, can only keep 3 nodes in memory
+Realized I need a check to see if root doesn't exist we need to create a new root node with the empty_node(block_id, parent) command. This should insert the key/value into it, write it to disk, and update header with the new root ID
+
+If the root does exist we can go ahead and read it from disk using the read_mode function, insert the key/value, and write the node back to disk.
+
+For project requirements, we ensure every key/value inserted is in big endian encoding.
+
+Also had to implement the search command to make sure insert was working as intended.
+First it opens the specified index file in read only binary mode
+
+Added a recursive feature to traverse the B-tree to find the node based on the key value, base case is to stop when lead node is reached, when it's not loop and check if the key exists
+
+Thankfully didn't run into too many issues and was able to test both functions out successfully.
+
+### May 5th 1:00pm
+
