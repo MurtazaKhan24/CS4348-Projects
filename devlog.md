@@ -202,4 +202,20 @@ Added a recursive feature to traverse the B-tree to find the node based on the k
 Thankfully didn't run into too many issues and was able to test both functions out successfully.
 
 ### May 5th 1:00pm
+Gonna work on implementing the load function now
+
+I'll do it in two parts, opening the csv files containing the key,value pairs and then the actual loading logic into the index file
+Was able to add the logic to open and parse through csv file, now need to figure out how to insert each entry into the file
+
+Found out I can use the insert() function and call the already made insert function to add each key, value pair into the tree
+
+Everything working as intended
+
+Next I'll work on the print command
+
+So this will perform a in-order traversal on the B-tree and print the key,values found in each node
+I'll figure out the logic on how to implement in-order traversal again
+
+So I can use the read_node() function to be able to output the key,values 
+Did some testing and was able to run it smoothly, not too bad
 
