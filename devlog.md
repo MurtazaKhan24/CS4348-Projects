@@ -213,9 +213,24 @@ Everything working as intended
 
 Next I'll work on the print command
 
+Reads in big endian but outputs to human readable format
 So this will perform a in-order traversal on the B-tree and print the key,values found in each node
 I'll figure out the logic on how to implement in-order traversal again
 
 So I can use the read_node() function to be able to output the key,values 
 Did some testing and was able to run it smoothly, not too bad
 
+### May 6th 2:30pm
+Working on extract command for today
+
+I can just use the same logic as the print function to traverse through the B-Tree
+
+Will have to figure out how to write the printed content into a csv file line by line
+Saw that I can use pythons csv.writer command to be able to write each key and value on a line.
+
+Also realized I need to add a check to fail the command if the file already exists
+Ran into some issue with adding to the file logic but after some research I was able to lookup how it works and implement it accordingly 
+
+Ran some tests and works as intended
+
+Will finalize everything soon, make sure I've met all requirements

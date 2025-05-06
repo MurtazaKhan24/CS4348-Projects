@@ -178,6 +178,36 @@ def print_index(index_file):
         else:
             print_btree(f, root_id)
 
+def extract_btree(f, block_id, writer):
+    if block_id == 0:
+        return
+
+    node = read_node(f, block_id)
+
+    for i in range(node["num_keys"]):
+        if node["children"][i] != 0:
+            extract_btree(f, node["children"][i], writer)
+        writer.writerow([node["keys"][i], node["values"][i]])
+    
+    if node["children"][node["num_keys"]] != 0:
+        extract_btree(f, node["children"][node["num_keys"]], writer)
+
+def extract(index_file, output_file):
+    if os.path.exists(output_file):
+        print("Error: Output file already exists.")
+        return
+
+    with open(index_file, 'rb') as f:
+        root_id, _ = read_header(f)
+        if root_id == 0:
+            print("Index is empty. Nothing to extract.")
+            return
+
+        with open(output_file, 'w', newline='') as out_csv:
+            writer = csv.writer(out_csv)
+            extract_btree(f, root_id, writer)
+            print(f"Extracted to {output_file}")
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         print("Usage: project3 <command> <args>")
@@ -220,5 +250,14 @@ if __name__ == '__main__':
                 print_index(sys.argv[2])
             except Exception as e:
                 print("Error:", e)
+    elif cmd == 'extract':
+        if len(sys.argv) != 4:
+            print("Usage: project3 extract <index_file> <output_csv>")
+        else:
+            try:
+                extract(sys.argv[2], sys.argv[3])
+            except Exception as e:
+                print("Error:", e)
+
 
 
