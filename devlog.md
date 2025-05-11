@@ -234,3 +234,7 @@ Ran into some issue with adding to the file logic but after some research I was 
 Ran some tests and works as intended
 
 Will finalize everything soon, make sure I've met all requirements
+
+### May 11th 1:00pm
+Finalized everything by making sure to add a README and making sure all test cases worked as intended
+
